@@ -1,0 +1,24 @@
+{
+  "template_id": "fleet_health",
+  "version": "1.0",
+  "layout": "base_extended",
+  "cover": {
+    "eyebrow": "Infra",
+    "report_title": "Fleet Health",
+    "report_subtitle": "Operational telemetry."
+  },
+  "sections": [
+    {
+      "id": "cpu_usage",
+      "title": "CPU",
+      "data_hint": ["cpu", "node"],
+      "chart_type": "auto"
+    },
+    {
+      "id": "memory_usage",
+      "title": "Memory",
+      "data_hint": ["memory", "ram"],
+      "chart_type": "auto"
+    }
+  ]
+}

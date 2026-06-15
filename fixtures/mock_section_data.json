@@ -1,0 +1,84 @@
+{
+  "sections": [
+    {
+      "section": {
+        "id": "cpu_usage",
+        "title": "CPU Utilization",
+        "data_hint": ["node", "cpu", "utilization"],
+        "chart_type": "auto"
+      },
+      "availability": {
+        "staleness": "fresh",
+        "warning": null
+      },
+      "query_result": {
+        "row_count": 1440,
+        "execution_ms": 42,
+        "plan": {
+          "aggregation": "avg",
+          "group_by": ["node"]
+        }
+      },
+      "stats": {
+        "mean": 45.2,
+        "min": 12.0,
+        "max": 89.5,
+        "p95": 78.3,
+        "last": 50.1,
+        "unit": "%",
+        "delta_pct": 3.5,
+        "trend": "up",
+        "narrative": "CPU usage is elevated during peak hours."
+      },
+      "chart_svg": null,
+      "chart_fallback_text": "CPU chart placeholder",
+      "error": null
+    },
+    {
+      "section": {
+        "id": "memory_usage",
+        "title": "Memory Usage",
+        "data_hint": ["node", "memory", "ram"],
+        "chart_type": "auto"
+      },
+      "availability": {
+        "staleness": "fresh",
+        "warning": null
+      },
+      "query_result": {
+        "row_count": 1440,
+        "execution_ms": 38,
+        "plan": {
+          "aggregation": "avg",
+          "group_by": ["node"]
+        }
+      },
+      "stats": {
+        "mean": 62.1,
+        "min": 40.0,
+        "max": 91.2,
+        "p95": 85.0,
+        "last": 60.5,
+        "unit": "%",
+        "delta_pct": -1.2,
+        "trend": "down",
+        "narrative": null
+      },
+      "chart_svg": null,
+      "chart_fallback_text": "Memory chart placeholder",
+      "error": null
+    }
+  ],
+  "report_summary": {
+    "total_sections": 2,
+    "sections_with_data": 2,
+    "coverage_pct": 100.0,
+    "fresh": 2,
+    "stale": 0,
+    "offline": 0,
+    "total_rows": 2880,
+    "total_exec_ms": 80
+  },
+  "generated_at": "2024-06-11T12:00:00+00:00",
+  "timezone": "UTC"
+}

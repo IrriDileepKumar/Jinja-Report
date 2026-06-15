@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TemplateDraft",
+  "type": "object",
+  "required": ["template_id", "version", "layout", "cover", "sections"],
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "string",
+      "enum": ["base_extended"]
+    },
+    "cover": {
+      "type": "object",
+      "required": ["eyebrow", "report_title", "report_subtitle"],
+      "properties": {
+        "eyebrow": { "type": "string" },
+        "report_title": { "type": "string" },
+        "report_subtitle": { "type": "string" },
+        "accent_1": { "type": "string", "default": "#22d3ee" },
+        "accent_2": { "type": "string", "default": "#6366f1" },
+        "accent_3": { "type": "string", "default": "#8b5cf6" }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "data_hint"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "title": { "type": "string" },
+          "data_hint": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "chart_type": {
+            "type": "string",
+            "default": "auto"
+          }
+        }
+      }
+    }
+  }
+}

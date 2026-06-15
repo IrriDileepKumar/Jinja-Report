@@ -1,0 +1,10 @@
+{
+  "presets": [
+    {
+      "id": "base_extended",
+      "name": "Extended Base",
+      "description": "Extends _base.html.j2 with custom cover and accent colors.",
+      "body_pattern": "extends _base.html.j2 with eyebrow, report_title, report_subtitle, accent_1/2/3 blocks"
+    }
+  ]
+}

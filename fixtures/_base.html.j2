@@ -1,0 +1,504 @@
+{# Shared premium layout. Concrete templates extend this and override
+   the report_title / report_subtitle / accent_palette blocks. #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block doc_title %}{{ self.report_title() }}{% endblock %}</title>
+  <style>
+    :root {
+      --ink:       #0f172a;
+      --ink-soft:  #1f2937;
+      --muted:     #6b7280;
+      --line:      #e5e7eb;
+      --line-soft: #f1f5f9;
+      --bg:        #ffffff;
+      --bg-soft:   #fafafa;
+      --bg-card:   #f8fafc;
+
+      --brand-1: {% block accent_1 %}#ff2e63{% endblock %};
+      --brand-2: {% block accent_2 %}#ec4899{% endblock %};
+      --brand-3: {% block accent_3 %}#8b5cf6{% endblock %};
+      --brand-grad: linear-gradient(90deg, var(--brand-1), var(--brand-2), var(--brand-3));
+      --brand-grad-soft: linear-gradient(135deg, rgba(255,46,99,0.06), rgba(139,92,246,0.06));
+
+      --ok:   #16a34a; --ok-soft:   #dcfce7;
+      --warn: #d97706; --warn-soft: #fef3c7;
+      --crit: #dc2626; --crit-soft: #fee2e2;
+      --info: #2563eb; --info-soft: #dbeafe;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 22mm 16mm 22mm 16mm;
+      @top-left { content: "{% block running_header %}{{ self.report_title() }}{% endblock %}"; font-family: "Inter","Helvetica Neue",Arial,sans-serif; font-size: 8pt; color: #6b7280; }
+      @top-right { content: "{{ generated_at | format_ts('%Y-%m-%d') }}"; font-family: "Inter","Helvetica Neue",Arial,sans-serif; font-size: 8pt; color: #6b7280; }
+      @bottom-center { content: counter(page) " / " counter(pages); font-family: "Inter","Helvetica Neue",Arial,sans-serif; font-size: 8pt; color: #9ca3af; }
+    }
+    @page :first {
+      @top-left { content: ""; }
+      @top-right { content: ""; }
+      @bottom-center { content: ""; }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Inter","Helvetica Neue",Arial,sans-serif;
+      font-size: 10pt; color: var(--ink);
+      margin: 0; padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- Cover ---------- */
+    .cover { page-break-after: always; padding: 38mm 18mm 22mm; position: relative; }
+    .cover .accent-bar {
+      width: 30mm; height: 4pt;
+      background: var(--brand-grad);
+      border-radius: 2pt;
+      margin-bottom: 8mm;
+    }
+    .cover .eyebrow {
+      text-transform: uppercase; letter-spacing: 2.2pt;
+      font-size: 8.5pt; font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 5mm;
+    }
+    .cover h1 {
+      font-size: 36pt; font-weight: 800;
+      line-height: 1.05; letter-spacing: -0.5pt;
+      margin: 0 0 6mm;
+      color: var(--ink);
+    }
+    .cover .subtitle {
+      font-size: 13pt; color: var(--muted);
+      font-weight: 400;
+      max-width: 130mm;
+    }
+    .cover .meta-line {
+      font-size: 8.5pt; color: var(--muted);
+      margin-top: 6mm;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4mm;
+      margin-top: 14mm;
+    }
+    .summary-card {
+      background: var(--bg-card);
+      border: 1pt solid var(--line);
+      border-radius: 6pt;
+      padding: 5mm 4mm;
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-card .card-label {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 1pt;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 3mm;
+    }
+    .summary-card .card-value {
+      font-size: 20pt; font-weight: 800;
+      color: var(--ink); line-height: 1;
+    }
+    .summary-card .card-sub {
+      font-size: 8pt; color: var(--muted);
+      margin-top: 2mm;
+    }
+    .summary-card.accent::before {
+      content: ""; position: absolute;
+      left: 0; top: 0; bottom: 0; width: 2.5pt;
+      background: var(--brand-grad);
+    }
+    .summary-card.ok    { border-color: #bbf7d0; }
+    .summary-card.warn  { border-color: #fde68a; }
+    .summary-card.crit  { border-color: #fecaca; }
+    .summary-card.ok    .card-value { color: var(--ok); }
+    .summary-card.warn  .card-value { color: var(--warn); }
+    .summary-card.crit  .card-value { color: var(--crit); }
+
+    .cover-footer {
+      position: absolute; left: 18mm; right: 18mm; bottom: 18mm;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      font-size: 8.5pt; color: var(--muted);
+      border-top: 1pt solid var(--line);
+      padding-top: 4mm;
+    }
+    .cover-footer .brand-mark {
+      font-weight: 700; color: var(--ink); letter-spacing: 0.5pt;
+    }
+
+    /* ---------- Table of contents ---------- */
+    .toc { page-break-after: always; padding-top: 4mm; }
+    .toc h2 {
+      font-size: 18pt; font-weight: 800;
+      margin: 0 0 2mm; letter-spacing: -0.3pt;
+    }
+    .toc .toc-rule {
+      width: 16mm; height: 3pt; background: var(--brand-grad);
+      border-radius: 2pt; margin-bottom: 8mm;
+    }
+    .toc ol {
+      list-style: none; padding: 0; margin: 0;
+      counter-reset: toc;
+    }
+    .toc li {
+      display: flex; align-items: baseline;
+      counter-increment: toc;
+      padding: 2.4mm 0;
+      border-bottom: 1pt dotted var(--line);
+      font-size: 11pt;
+    }
+    .toc li::before {
+      content: counter(toc, decimal-leading-zero);
+      font-weight: 700; color: var(--muted);
+      margin-right: 5mm; font-size: 9pt;
+      letter-spacing: 0.5pt;
+    }
+    .toc li .toc-title { flex: 1; color: var(--ink); }
+    .toc li .toc-tag {
+      font-size: 7.5pt; padding: 1pt 6pt; border-radius: 3pt;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.4pt;
+    }
+    .toc-tag.fresh   { background: var(--ok-soft);   color: var(--ok); }
+    .toc-tag.stale   { background: var(--warn-soft); color: var(--warn); }
+    .toc-tag.offline { background: var(--crit-soft); color: var(--crit); }
+    .toc-tag.empty   { background: var(--line-soft); color: var(--muted); }
+
+    /* ---------- Section ---------- */
+    .section { page-break-before: always; padding-top: 2mm; }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 2mm;
+    }
+    .section-index {
+      font-size: 8pt; text-transform: uppercase; letter-spacing: 1.6pt;
+      color: var(--muted); font-weight: 700;
+    }
+    .section-title {
+      font-size: 22pt; font-weight: 800;
+      margin: 1mm 0 2mm; letter-spacing: -0.4pt; color: var(--ink);
+    }
+    .section-underline {
+      width: 22mm; height: 3pt; background: var(--brand-grad);
+      border-radius: 2pt; margin-bottom: 5mm;
+    }
+    .section-narrative {
+      font-size: 10.5pt; color: var(--ink-soft);
+      line-height: 1.55; max-width: 165mm;
+      padding: 4mm 5mm;
+      border-left: 3pt solid; border-image: var(--brand-grad) 1;
+      background: linear-gradient(135deg, rgba(253,242,248,1) 0%, rgba(245,243,255,1) 100%);
+      border-radius: 0 5pt 5pt 0;
+      margin: 0 0 5mm 0;
+    }
+    .section-meta {
+      display: flex; gap: 5mm; flex-wrap: wrap;
+      font-size: 8.5pt; color: var(--muted);
+      margin-bottom: 4mm;
+    }
+    .section-meta .meta-chip {
+      display: inline-flex; align-items: center; gap: 2mm;
+      padding: 1.5pt 6pt;
+      background: var(--bg-soft); border: 1pt solid var(--line);
+      border-radius: 999pt;
+    }
+    .section-meta .meta-chip strong { color: var(--ink-soft); font-weight: 700; }
+
+    /* KPI band (premium) */
+    .kpi-band {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      margin: 0 0 5mm 0;
+      border: 1pt solid var(--line); border-radius: 6pt;
+      overflow: hidden;
+      background: var(--brand-grad); padding-top: 2.5pt;
+    }
+    .kpi {
+      padding: 3.5mm 3mm 3mm;
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 100%);
+      border-right: 1pt solid var(--line);
+      page-break-inside: avoid;
+    }
+    .kpi:last-child { border-right: none; }
+    .kpi .kpi-label {
+      font-size: 6.5pt; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--brand-violet);
+      margin-bottom: 1.5mm;
+    }
+    .kpi .kpi-value {
+      font-size: 13pt; font-weight: 800;
+      color: var(--ink); line-height: 1.1;
+      letter-spacing: -0.2px;
+    }
+    .kpi .kpi-trend {
+      display: inline-block;
+      font-size: 7.5pt; font-weight: 800; margin-top: 1.5mm;
+      padding: 1pt 5pt; border-radius: 3pt;
+      letter-spacing: 0.2px;
+    }
+    .kpi-trend.up   { color: var(--ok);   background: var(--ok-soft); }
+    .kpi-trend.down { color: var(--crit); background: var(--crit-soft); }
+    .kpi-trend.flat { color: var(--muted); background: var(--line-soft); }
+
+    /* Chart */
+    .chart-container {
+      margin: 0 0 5mm; text-align: center;
+      page-break-inside: avoid;
+      border: 1pt solid var(--line);
+      border-radius: 6pt;
+      padding: 4mm 4mm 2mm;
+      background: var(--bg);
+    }
+    .chart-container svg,
+    .chart-container img { max-width: 100%; height: auto; max-height: 165mm; }
+
+    .chart-fallback {
+      padding: 12mm 8mm;
+      border: 1.5pt dashed var(--line);
+      border-radius: 6pt;
+      color: var(--muted);
+      font-size: 9pt; text-align: center;
+      background: var(--bg-soft);
+    }
+    .no-data {
+      padding: 16mm; text-align: center;
+      color: var(--muted); font-style: italic;
+      background: var(--bg-soft); border-radius: 6pt;
+    }
+
+    /* Badges & banners */
+    .staleness-badge {
+      display: inline-block; padding: 1.5pt 7pt;
+      border-radius: 999pt; font-size: 7.5pt; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.6pt;
+    }
+    .badge-fresh   { background: var(--ok-soft);   color: var(--ok); }
+    .badge-stale   { background: var(--warn-soft); color: var(--warn); }
+    .badge-offline { background: var(--crit-soft); color: var(--crit); }
+
+    .warning-banner {
+      padding: 8pt 12pt; margin: 3mm 0;
+      background: var(--warn-soft);
+      border-left: 3pt solid var(--warn);
+      border-radius: 0 4pt 4pt 0;
+      font-size: 9pt; color: var(--ink-soft);
+    }
+    .error-banner {
+      padding: 8pt 12pt; margin: 3mm 0;
+      background: var(--crit-soft);
+      border-left: 3pt solid var(--crit);
+      border-radius: 0 4pt 4pt 0;
+      font-size: 9pt; color: var(--ink-soft);
+    }
+
+    .footer {
+      font-size: 8pt; color: var(--muted);
+      text-align: center; margin-top: 10mm;
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  {# ---------- COVER ---------- #}
+  <div class="cover">
+    <div class="accent-bar"></div>
+    <div class="eyebrow">{% block eyebrow %}Infrastructure Intelligence{% endblock %}</div>
+    <h1>{% block report_title %}Infrastructure Report{% endblock %}</h1>
+    <p class="subtitle">
+      {% block report_subtitle %}
+        Operational telemetry from
+        <strong>{{ request.time_range.start | format_ts('%b %d, %Y') }}</strong>
+        through
+        <strong>{{ request.time_range.end | format_ts('%b %d, %Y') }}</strong>.
+      {% endblock %}
+    </p>
+    <p class="meta-line">
+      Generated {{ generated_at | format_ts('%Y-%m-%d %H:%M %Z') }}
+      &middot; Timezone {{ timezone }}
+      &middot; Template <code>{{ template.template_id }}</code> v{{ template.version }}
+    </p>
+
+    <div class="summary-grid">
+      <div class="summary-card accent">
+        <div class="card-label">Sections</div>
+        <div class="card-value">{{ report_summary.total_sections }}</div>
+        <div class="card-sub">{{ report_summary.sections_with_data }} with data
+          ({{ "%.0f"|format(report_summary.coverage_pct) }}% coverage)</div>
+      </div>
+      <div class="summary-card ok">
+        <div class="card-label">Fresh</div>
+        <div class="card-value">{{ report_summary.fresh }}</div>
+        <div class="card-sub">streams up to date</div>
+      </div>
+      <div class="summary-card warn">
+        <div class="card-label">Stale</div>
+        <div class="card-value">{{ report_summary.stale }}</div>
+        <div class="card-sub">data lagging</div>
+      </div>
+      <div class="summary-card crit">
+        <div class="card-label">Offline</div>
+        <div class="card-value">{{ report_summary.offline }}</div>
+        <div class="card-sub">no recent samples</div>
+      </div>
+    </div>
+
+    <div class="summary-grid" style="margin-top: 4mm;">
+      <div class="summary-card">
+        <div class="card-label">Samples Analyzed</div>
+        <div class="card-value">{{ "{:,}".format(report_summary.total_rows) }}</div>
+        <div class="card-sub">rows across sections</div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Query Time</div>
+        <div class="card-value">
+          {% if report_summary.total_exec_ms >= 1000 -%}
+            {{ "%.1f"|format(report_summary.total_exec_ms / 1000) }}s
+          {%- else -%}
+            {{ report_summary.total_exec_ms }}ms
+          {%- endif %}
+        </div>
+        <div class="card-sub">total backend time</div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Window</div>
+        <div class="card-value" style="font-size: 13pt;">
+          {{ ((request.time_range.end - request.time_range.start).total_seconds() / 86400) | int }} d
+        </div>
+        <div class="card-sub">range of analysis</div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Filters</div>
+        <div class="card-value" style="font-size: 13pt;">
+          {{ request.filters | length if request.filters else 0 }}
+        </div>
+        <div class="card-sub">active scopes</div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div><span class="brand-mark">REPORT AGENT v2</span></div>
+      <div>Confidential &middot; Internal Use</div>
+    </div>
+  </div>
+
+  {# ---------- TABLE OF CONTENTS ---------- #}
+  <div class="toc">
+    <h2>Contents</h2>
+    <div class="toc-rule"></div>
+    <ol>
+      {% for sr in sections %}
+        {% set is_empty = (sr.query_result is none or sr.query_result.row_count == 0) or (sr.stats and sr.stats.mean == 0 and sr.stats.min == 0 and sr.stats.max == 0) %}
+        {% if not is_empty %}
+        <li>
+          <span class="toc-title">{{ sr.section.title }}</span>
+          {% if sr.availability.staleness == 'fresh' %}
+            <span class="toc-tag fresh">Fresh</span>
+          {% elif sr.availability.staleness == 'stale' %}
+            <span class="toc-tag stale">Stale</span>
+          {% else %}
+            <span class="toc-tag offline">Offline</span>
+          {% endif %}
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+  </div>
+
+  {# ---------- SECTIONS ---------- #}
+  {% for sr in sections %}
+  {% set is_empty = (sr.query_result is none or sr.query_result.row_count == 0) or (sr.stats and sr.stats.mean == 0 and sr.stats.min == 0 and sr.stats.max == 0) %}
+  {% if not is_empty %}
+  <section class="section" id="{{ sr.section.id }}">
+    <div class="section-header">
+      <div class="section-index">Section {{ "%02d"|format(loop.index) }} of {{ "%02d"|format(loop.length) }}</div>
+      {% if sr.availability.staleness == 'fresh' %}
+        <span class="staleness-badge badge-fresh">Fresh</span>
+      {% elif sr.availability.staleness == 'stale' %}
+        <span class="staleness-badge badge-stale">Stale</span>
+      {% else %}
+        <span class="staleness-badge badge-offline">Potentially Offline</span>
+      {% endif %}
+    </div>
+    <h2 class="section-title">{{ sr.section.title }}</h2>
+    <div class="section-underline"></div>
+
+    {% if sr.stats and sr.stats.narrative %}
+      <div class="section-narrative">{{ sr.stats.narrative }}</div>
+    {% endif %}
+
+    <div class="section-meta">
+      {% if sr.query_result %}
+        <span class="meta-chip"><strong>{{ "{:,}".format(sr.query_result.row_count) }}</strong> rows</span>
+        <span class="meta-chip"><strong>{{ sr.query_result.execution_ms }}</strong> ms</span>
+        <span class="meta-chip">aggregation <strong>{{ sr.query_result.plan.aggregation }}</strong></span>
+        {% if sr.query_result.plan.group_by %}
+          <span class="meta-chip">grouped by <strong>{{ sr.query_result.plan.group_by | join(', ') }}</strong></span>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% if sr.availability.warning %}
+      <div class="warning-banner">{{ sr.availability.warning }}</div>
+    {% endif %}
+
+    {% if sr.stats %}
+      <div class="kpi-band">
+        <div class="kpi">
+          <div class="kpi-label">Mean</div>
+          <div class="kpi-value">{{ sr.stats.mean | format_metric(sr.stats.unit) }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Min</div>
+          <div class="kpi-value">{{ sr.stats.min | format_metric(sr.stats.unit) }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Max</div>
+          <div class="kpi-value">{{ sr.stats.max | format_metric(sr.stats.unit) }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">P95</div>
+          <div class="kpi-value">{{ sr.stats.p95 | format_metric(sr.stats.unit) }}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Last</div>
+          <div class="kpi-value">{{ sr.stats.last | format_metric(sr.stats.unit) }}</div>
+          {% if sr.stats.delta_pct is not none %}
+            <div class="kpi-trend {{ sr.stats.trend }}">
+              {% if sr.stats.trend == 'up' %}&#9650;{% elif sr.stats.trend == 'down' %}&#9660;{% else %}&#9644;{% endif %}
+              {{ "%+.1f"|format(sr.stats.delta_pct) }}%
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if sr.chart_svg %}
+      <div class="chart-container">{{ sr.chart_svg | safe }}</div>
+    {% elif sr.chart_fallback_text %}
+      <div class="chart-fallback">{{ sr.chart_fallback_text }}</div>
+    {% else %}
+      <div class="no-data">No data available for this section.</div>
+    {% endif %}
+
+    {% if sr.error %}
+      <div class="error-banner">Error: {{ sr.error }}</div>
+    {% endif %}
+  </section>
+  {% endif %}
+  {% endfor %}
+
+  <div class="footer">
+    Report Agent V2 &middot; Generated {{ generated_at | format_ts }} &middot;
+    {{ report_summary.total_sections }} sections &middot;
+    {{ "{:,}".format(report_summary.total_rows) }} samples
+  </div>
+</body>
+</html>

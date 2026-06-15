@@ -1,0 +1,682 @@
+[
+  {
+    "catalog_id": "cpu_usage",
+    "title": "CPU Utilization",
+    "default_data_hint": [
+      "node",
+      "cpu",
+      "utilization",
+      "time",
+      "usage"
+    ],
+    "default_chart_type": "auto",
+    "category": "compute",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "memory_usage",
+    "title": "Memory Usage",
+    "default_data_hint": [
+      "node",
+      "memory",
+      "ram"
+    ],
+    "default_chart_type": "auto",
+    "category": "other",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "disk_io",
+    "title": "Disk I/O",
+    "default_data_hint": [
+      "node",
+      "disk",
+      "io",
+      "storage"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "filesystem_usage",
+    "title": "Filesystem Usage",
+    "default_data_hint": [
+      "node",
+      "filesystem",
+      "disk",
+      "storage"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "network_traffic",
+    "title": "Network Traffic",
+    "default_data_hint": [
+      "node",
+      "network",
+      "interface"
+    ],
+    "default_chart_type": "auto",
+    "category": "network",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "system_temperature",
+    "title": "System Temperature",
+    "default_data_hint": [
+      "temperature",
+      "thermal",
+      "sensor",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "power_consumption",
+    "title": "Power Consumption",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "fan_speed",
+    "title": "Fan Speed",
+    "default_data_hint": [
+      "fan",
+      "speed",
+      "rpm",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "system_health",
+    "title": "System Health",
+    "default_data_hint": [
+      "system",
+      "health",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "storage_health",
+    "title": "Storage Health",
+    "default_data_hint": [
+      "storage",
+      "drive",
+      "health",
+      "disk",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "datacenter_health"
+  },
+  {
+    "catalog_id": "gpu_utilization",
+    "title": "GPU Utilization",
+    "default_data_hint": [
+      "gpu",
+      "utilization"
+    ],
+    "default_chart_type": "auto",
+    "category": "compute",
+    "source_template": "gpu_performance"
+  },
+  {
+    "catalog_id": "gpu_memory",
+    "title": "GPU Memory Usage",
+    "default_data_hint": [
+      "gpu",
+      "memory"
+    ],
+    "default_chart_type": "auto",
+    "category": "gpu",
+    "source_template": "gpu_performance"
+  },
+  {
+    "catalog_id": "gpu_power",
+    "title": "GPU Power Draw",
+    "default_data_hint": [
+      "gpu",
+      "power"
+    ],
+    "default_chart_type": "auto",
+    "category": "gpu",
+    "source_template": "gpu_performance"
+  },
+  {
+    "catalog_id": "gpu_temperature",
+    "title": "GPU Temperature",
+    "default_data_hint": [
+      "gpu",
+      "thermal",
+      "temperature"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "gpu_performance"
+  },
+  {
+    "catalog_id": "total_power",
+    "title": "Total Power Consumption",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "power_per_device",
+    "title": "Power per Device",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "power_capacity",
+    "title": "Power Capacity vs Consumed",
+    "default_data_hint": [
+      "power",
+      "capacity",
+      "watts",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "psu_efficiency",
+    "title": "PSU Efficiency",
+    "default_data_hint": [
+      "psu",
+      "efficiency",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "psu_input_voltage",
+    "title": "PSU Input Voltage",
+    "default_data_hint": [
+      "psu",
+      "voltage",
+      "input",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "psu_output_watts",
+    "title": "PSU Output Wattage",
+    "default_data_hint": [
+      "psu",
+      "output",
+      "watts",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "psu_health",
+    "title": "PSU Health Status",
+    "default_data_hint": [
+      "psu",
+      "health",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "power_peak",
+    "title": "Peak Power Consumption",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "peak",
+      "max",
+      "watts",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "power_analysis"
+  },
+  {
+    "catalog_id": "power_total",
+    "title": "Fleet Total Power Draw",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac",
+      "avg"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "power_per_device",
+    "title": "Power per Device",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac",
+      "capacity"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "power_heatmap",
+    "title": "Power Consumption Heatmap",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac",
+      "avg"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "cpu_trend",
+    "title": "CPU Utilisation Trend",
+    "default_data_hint": [
+      "node",
+      "cpu",
+      "utilization",
+      "usage",
+      "time"
+    ],
+    "default_chart_type": "auto",
+    "category": "compute",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "cpu_capacity",
+    "title": "CPU Capacity vs Utilisation",
+    "default_data_hint": [
+      "node",
+      "cpu",
+      "utilization",
+      "usage"
+    ],
+    "default_chart_type": "auto",
+    "category": "compute",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "memory_used",
+    "title": "Memory Used vs Available",
+    "default_data_hint": [
+      "node",
+      "memory",
+      "active",
+      "ram"
+    ],
+    "default_chart_type": "auto",
+    "category": "other",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "memory_installed",
+    "title": "Installed RAM per Device",
+    "default_data_hint": [
+      "memory",
+      "installed",
+      "ram",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "disk_usage",
+    "title": "Root Partition Usage",
+    "default_data_hint": [
+      "node",
+      "filesystem",
+      "disk",
+      "usage"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "disk_wear",
+    "title": "Storage Drive Life",
+    "default_data_hint": [
+      "storage",
+      "drive",
+      "health",
+      "disk",
+      "idrac",
+      "wear"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "temp_envelope",
+    "title": "Fleet Temperature Envelope",
+    "default_data_hint": [
+      "temperature",
+      "thermal",
+      "sensor",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "temp_per_device",
+    "title": "Per-Device Temperature",
+    "default_data_hint": [
+      "temperature",
+      "thermal",
+      "sensor",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "network_inbound",
+    "title": "Network Inbound Traffic",
+    "default_data_hint": [
+      "node",
+      "network",
+      "receive",
+      "traffic"
+    ],
+    "default_chart_type": "auto",
+    "category": "network",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "network_outbound",
+    "title": "Network Outbound Traffic",
+    "default_data_hint": [
+      "node",
+      "network",
+      "transmit",
+      "traffic"
+    ],
+    "default_chart_type": "auto",
+    "category": "network",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "system_health",
+    "title": "System Health",
+    "default_data_hint": [
+      "system",
+      "health",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "fan_speed",
+    "title": "Fan Speed",
+    "default_data_hint": [
+      "fan",
+      "speed",
+      "rpm",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "infra_usage_report"
+  },
+  {
+    "catalog_id": "power_total",
+    "title": "Fleet Total Power Draw",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac",
+      "avg"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "power_per_device",
+    "title": "Power per Device",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac",
+      "capacity"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "power_heatmap",
+    "title": "Power Consumption Heatmap",
+    "default_data_hint": [
+      "power",
+      "consumption",
+      "watts",
+      "idrac",
+      "avg"
+    ],
+    "default_chart_type": "auto",
+    "category": "power",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "cpu_trend",
+    "title": "CPU Utilisation Trend",
+    "default_data_hint": [
+      "node",
+      "cpu",
+      "utilization",
+      "usage",
+      "time"
+    ],
+    "default_chart_type": "auto",
+    "category": "compute",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "cpu_capacity",
+    "title": "CPU Capacity vs Utilisation",
+    "default_data_hint": [
+      "node",
+      "cpu",
+      "utilization",
+      "usage"
+    ],
+    "default_chart_type": "auto",
+    "category": "compute",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "memory_used",
+    "title": "Memory Used vs Available",
+    "default_data_hint": [
+      "node",
+      "memory",
+      "active",
+      "ram"
+    ],
+    "default_chart_type": "auto",
+    "category": "other",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "memory_installed",
+    "title": "Installed RAM per Device",
+    "default_data_hint": [
+      "memory",
+      "installed",
+      "ram",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "disk_usage",
+    "title": "Root Partition Usage",
+    "default_data_hint": [
+      "node",
+      "filesystem",
+      "disk",
+      "usage"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "disk_wear",
+    "title": "Storage Drive Life",
+    "default_data_hint": [
+      "storage",
+      "drive",
+      "health",
+      "disk",
+      "idrac",
+      "wear"
+    ],
+    "default_chart_type": "auto",
+    "category": "storage",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "temp_envelope",
+    "title": "Fleet Temperature Envelope",
+    "default_data_hint": [
+      "temperature",
+      "thermal",
+      "sensor",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "temp_per_device",
+    "title": "Per-Device Temperature",
+    "default_data_hint": [
+      "temperature",
+      "thermal",
+      "sensor",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "network_inbound",
+    "title": "Network Inbound Traffic",
+    "default_data_hint": [
+      "node",
+      "network",
+      "interface",
+      "receive",
+      "bytes"
+    ],
+    "default_chart_type": "auto",
+    "category": "network",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "network_outbound",
+    "title": "Network Outbound Traffic",
+    "default_data_hint": [
+      "node",
+      "network",
+      "interface",
+      "transmit",
+      "bytes"
+    ],
+    "default_chart_type": "auto",
+    "category": "network",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "system_health",
+    "title": "System Health",
+    "default_data_hint": [
+      "system",
+      "health",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "custom_infra_usage_report"
+  },
+  {
+    "catalog_id": "fan_speed",
+    "title": "Fan Speed",
+    "default_data_hint": [
+      "fan",
+      "speed",
+      "rpm",
+      "idrac"
+    ],
+    "default_chart_type": "auto",
+    "category": "health",
+    "source_template": "custom_infra_usage_report"
+  }
+]
